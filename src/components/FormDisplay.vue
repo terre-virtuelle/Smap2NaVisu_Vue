@@ -17,7 +17,7 @@ export default {
     onMounted(() => {
       const editor_holder = document.getElementById('editor_holder');
       // we ccan add another attributes in the options to add styles for example
-      editor = new JSONEditor(editor_holder, {schema:schemaCN});
+      editor = new JSONEditor(editor_holder, {theme: 'bootstrap4',schema:schemaCN});
     })
     return {
       editor
@@ -27,3 +27,6 @@ export default {
 }
 </script>
 
+<style>
+@import'~bootstrap/dist/css/bootstrap.css'
+</style>

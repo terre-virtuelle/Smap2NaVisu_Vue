@@ -1,5 +1,5 @@
 {
-  "name": "formjsonvue",
+  "name": "smap2navisu_vue",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,10 +9,14 @@
   },
   "dependencies": {
     "@json-editor/json-editor": "^2.6.1",
+    "bootstrap": "4.6.1",
     "core-js": "^3.6.5",
+    "jquery": "^3.6.0",
+    "popper.js": "^1.16.1",
     "vue": "^3.0.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.16.8",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
