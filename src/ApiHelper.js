@@ -1,7 +1,6 @@
 import Axios from "axios";
 class ApiHelper {
-    static  urlBase = 'http://localhost:3000/';
-
+    static  urlBase = 'http://localhost:3003/';
     static setHeader () {
         Axios.defaults.headers.common = {'Access-Control-Allow-Origin': '*'};
     }
@@ -12,7 +11,7 @@ class ApiHelper {
     static sendDataForm(data) {
         return  Axios({
             method: 'post',
-            url: ApiHelper.urlBase+'connectSocialMedia',
+            url: ApiHelper.urlBase+'control',
             data:data
         });
     }

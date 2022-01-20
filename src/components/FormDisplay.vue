@@ -1,12 +1,16 @@
 <template>
+  <div>
     <div id="editor_holder">
       </div>
+    <button @click="validateData" >Validate</button>
+  </div>
 </template>
 
 <script>
 import schemaCN from "../assets/schemaCN.json";
 import {JSONEditor} from "@json-editor/json-editor";
 import { onMounted} from "vue";
+import ApiHelper from "@/ApiHelper";
 
 export default {
   name: "FormDisplay",
@@ -19,14 +23,23 @@ export default {
       // we ccan add another attributes in the options to add styles for example
       editor = new JSONEditor(editor_holder, {theme: 'bootstrap4',schema:schemaCN});
     })
-    return {
-      editor
+    const validateData = async () =>{
+      await ApiHelper.setHeader()
+      const res = await ApiHelper.sendDataForm(editor.getValue())
+      console.log('res from back  ',res)
+
     }
+    return {
+      editor,validateData
+    }
+
+  },
+  methods:{
 
   }
 }
 </script>
 
 <style>
-@import'~bootstrap/dist/css/bootstrap.css'
+@import'~bootstrap/dist/css/bootstrap.css';
 </style>
