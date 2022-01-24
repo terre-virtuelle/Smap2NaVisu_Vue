@@ -4,6 +4,10 @@
                       @closeDialog="closeAddSectionDialog" @addSection="addSection"/>
     <AddFieldDialog v-if="addFieldIsOpen" :is-open="addFieldIsOpen"
                     @closeDialog="closeAddFieldDialog" @addField="addField" />
+    <v-row>
+    <v-col
+        cols="6"
+    >
     <v-form>
       <v-row>
         <v-col
@@ -64,6 +68,13 @@
         </v-col>
       </v-row>
     </v-form>
+    </v-col>
+    <v-col
+        cols="6"
+    >
+      <FormDisplay v-if="prevIsDispay" :form-schema="localSchemaUsed"/>
+    </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -71,11 +82,13 @@
 import AddSectionDialog from "@/components/AddSectionDialog";
 import SectionDisplay from "@/components/SectionDisplay";
 import AddFieldDialog from "@/components/AddFieldDialog";
+import FormDisplay from "@/components/FormDisplay";
 import {ref} from "vue";
+import Utils from "@/Utils";
 
 export default {
   name: "FormBuilder",
-  components: {AddSectionDialog, SectionDisplay,AddFieldDialog},
+  components: {AddSectionDialog, SectionDisplay,AddFieldDialog,FormDisplay},
   props: ['schemaUsed'],
   setup() {
     const localSchemaUsed = initNewSchema();
@@ -83,6 +96,7 @@ export default {
     const addFieldIsOpen = ref(false);
     const asContent = ref(false);
     const sectionSelected = ref(null)
+    const prevIsDispay = ref(false)
 
     function initNewSchema() {
       return {
@@ -96,7 +110,7 @@ export default {
       }
     }
 
-    return {localSchemaUsed, addSectionDialogIsOpen, asContent,addFieldIsOpen,sectionSelected};
+    return {localSchemaUsed, addSectionDialogIsOpen, asContent,addFieldIsOpen,sectionSelected,prevIsDispay};
   },
   methods: {
     closeAddSectionDialog() {
@@ -109,7 +123,6 @@ export default {
       this.addFieldIsOpen = false;
     },
     openAddFieldDialog(asSection=null) {
-      console.log('asSection   ',asSection)
       this.sectionSelected = asSection;
       this.addFieldIsOpen = true;
     },
@@ -122,35 +135,26 @@ export default {
       this.asContent = true
       if (!this.sectionSelected){
         this.localSchemaUsed.schema.properties = {...this.localSchemaUsed.schema.properties,...field};
-        this.closeAddFieldDialog();
       }else {
-        const schemaUsed = this.localSchemaUsed.schema;
-        let target = schemaUsed.properties;
-        const maxLength = this.sectionSelected.length;
-        console.log('target0   ',target)
-
-        this.sectionSelected.forEach((node,index)=> {
-          if((index + 1) < maxLength){
-            console.log('target1  if ',target)
-            target = target.properties[node]
-            console.log('target2  if ',target)
-
-          }else
-            console.log('target1  else ',target)
-
-          target = {...target[node],properties:{...target.properties,...field}}
-          console.log('target2 else ',target)
-
-          schemaUsed.properties = {...schemaUsed.properties,[node]:target}
-        })
-        console.log('schemaUsed  ',schemaUsed)
-        this.closeAddFieldDialog()
+        const schemaUsed = Utils.deepCloneObject(this.localSchemaUsed);
+        const nodesLenght = this.sectionSelected.length
+        let schemaProprieties = schemaUsed.schema.properties;
+        this.sectionSelected.forEach((node,index) => {
+          if ((index+1) === nodesLenght){
+            schemaProprieties[node] = {...schemaProprieties[node],properties:{...schemaProprieties[node].properties,...field}}
+          }else {
+            schemaProprieties = index === 0 ? schemaProprieties[node] : schemaProprieties[node].properties ;
+          }
+        }  )
+        schemaUsed.schema.properties = schemaProprieties;
+        this.localSchemaUsed = Utils.deepCloneObject(schemaUsed)
       }
-      console.log('this.localSchemaUsed', this.localSchemaUsed)
+      this.closeAddFieldDialog()
       this.sectionSelected = null;
     },
     showPreview() {
-      this.$emit('loadSchema', this.localSchemaUsed)
+       this.prevIsDispay  = true
+      //this.$emit('loadSchema', this.localSchemaUsed)
     },
   }
 }
