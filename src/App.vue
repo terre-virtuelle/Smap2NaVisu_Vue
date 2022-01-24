@@ -1,25 +1,44 @@
 <template>
-  <FormDisplay/>
+  <v-app>
+    <v-layout>
+      <AppBar @changeMode="changeMode"/>
+    <v-main>
+      <FormBuilder v-if="mode === 'createScenario'" :schema-used="schemaUsed" @loadSchema="loadSchema"/>
+      <FormDisplay v-else-if="mode === 'displayScenario'" :form-schema="formSchema"/>
+    </v-main>
+    </v-layout>
+  </v-app>
 </template>
 
 <script>
-import FormDisplay from './components/FormDisplay.vue'
+import FormBuilder from "@/components/FormBuilder";
+import FormDisplay from "@/components/FormDisplay";
+import AppBar from "@/components/AppBar";
+import scenarioModel from "../src/assets/scenarioModel.json"
 
 export default {
   name: 'App',
+
   components: {
-    FormDisplay
+    FormBuilder,
+    FormDisplay,
+    AppBar
+  },
+
+  data: () => ({
+    formSchema:scenarioModel,
+    schemaUsed:null,
+    mode : 'createScenario'
+  }),
+  methods:{
+    changeMode(mode){
+       this.mode = mode;
+    },
+    loadSchema(schema){
+      console.log('loadSchema    ',schema)
+      this.formSchema = {...schema};
+      this.mode = 'displayScenario';
+    }
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

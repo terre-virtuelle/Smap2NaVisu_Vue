@@ -1,0 +1,161 @@
+<template>
+  <v-container>
+    <AddSectionDialog v-if="addSectionDialogIsOpen" :is-open="addSectionDialogIsOpen"
+                      @closeDialog="closeAddSectionDialog" @addSection="addSection"/>
+    <AddFieldDialog v-if="addFieldIsOpen" :is-open="addFieldIsOpen"
+                    @closeDialog="closeAddFieldDialog" @addField="addField" />
+    <v-form>
+      <v-row>
+        <v-col
+            cols="12"
+            sm="6"
+            md="3"
+        >
+          <v-text-field
+              v-model="localSchemaUsed.schema.title"
+              label="Title"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-row>
+          <SectionDisplay v-if="asContent" :sections="localSchemaUsed.schema.properties" @openAddFieldDialog="openAddFieldDialog"/>
+        </v-row>
+        <v-col
+            cols="12"
+            sm="6"
+            md="3"
+        >
+          <v-btn
+              variant="outlined"
+              size="large"
+              color="info"
+              @click="openAddSectionDialog"
+          >
+            Add new section
+          </v-btn>
+          <v-btn
+              variant="outlined"
+              size="large"
+              color="info"
+              @click="openAddFieldDialog"
+          >
+            Add new Field
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col
+            cols="12"
+            sm="6"
+            md="3"
+        >
+          <v-btn
+              color="primary"
+          >
+            Save
+          </v-btn>
+          <v-btn
+              color="primary"
+              @click="showPreview"
+          >
+            Show preview
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-form>
+  </v-container>
+</template>
+
+<script>
+import AddSectionDialog from "@/components/AddSectionDialog";
+import SectionDisplay from "@/components/SectionDisplay";
+import AddFieldDialog from "@/components/AddFieldDialog";
+import {ref} from "vue";
+
+export default {
+  name: "FormBuilder",
+  components: {AddSectionDialog, SectionDisplay,AddFieldDialog},
+  props: ['schemaUsed'],
+  setup() {
+    const localSchemaUsed = initNewSchema();
+    const addSectionDialogIsOpen = ref(false);
+    const addFieldIsOpen = ref(false);
+    const asContent = ref(false);
+    const sectionSelected = ref(null)
+
+    function initNewSchema() {
+      return {
+        theme: 'bootstrap4',
+        iconlib: 'fontawesome4', schema: {
+          title: '', type: 'object', options: {
+            disable_edit_json: true,
+            disable_properties: true
+          }, properties: {},
+        }
+      }
+    }
+
+    return {localSchemaUsed, addSectionDialogIsOpen, asContent,addFieldIsOpen,sectionSelected};
+  },
+  methods: {
+    closeAddSectionDialog() {
+      this.addSectionDialogIsOpen = false;
+    },
+    openAddSectionDialog() {
+      this.addSectionDialogIsOpen = true;
+    },
+    closeAddFieldDialog() {
+      this.addFieldIsOpen = false;
+    },
+    openAddFieldDialog(asSection=null) {
+      console.log('asSection   ',asSection)
+      this.sectionSelected = asSection;
+      this.addFieldIsOpen = true;
+    },
+    addSection(section) {
+      this.localSchemaUsed.schema.properties = {...this.localSchemaUsed.schema.properties,...section};
+      this.asContent = true
+      this.closeAddSectionDialog()
+    },
+    addField(field) {
+      this.asContent = true
+      if (!this.sectionSelected){
+        this.localSchemaUsed.schema.properties = {...this.localSchemaUsed.schema.properties,...field};
+        this.closeAddFieldDialog();
+      }else {
+        const schemaUsed = this.localSchemaUsed.schema;
+        let target = schemaUsed.properties;
+        const maxLength = this.sectionSelected.length;
+        console.log('target0   ',target)
+
+        this.sectionSelected.forEach((node,index)=> {
+          if((index + 1) < maxLength){
+            console.log('target1  if ',target)
+            target = target.properties[node]
+            console.log('target2  if ',target)
+
+          }else
+            console.log('target1  else ',target)
+
+          target = {...target[node],properties:{...target.properties,...field}}
+          console.log('target2 else ',target)
+
+          schemaUsed.properties = {...schemaUsed.properties,[node]:target}
+        })
+        console.log('schemaUsed  ',schemaUsed)
+        this.closeAddFieldDialog()
+      }
+      console.log('this.localSchemaUsed', this.localSchemaUsed)
+      this.sectionSelected = null;
+    },
+    showPreview() {
+      this.$emit('loadSchema', this.localSchemaUsed)
+    },
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
