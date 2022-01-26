@@ -7,7 +7,7 @@
     >
       <v-card>
         <v-card-title>
-          <span class="text-h5">Add section</span>
+          <span class="text-h5">Ajouter une question</span>
         </v-card-title>
         <v-card-text>
           <v-form>
@@ -44,14 +44,14 @@
               text
               @click="closeDialog"
           >
-            Close
+            Annuler
           </v-btn>
           <v-btn
               color="blue darken-1"
               text
               @click="save"
           >
-            Save
+            Ajouter
           </v-btn>
         </v-card-actions>
       </v-card>

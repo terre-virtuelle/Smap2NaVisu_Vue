@@ -35,7 +35,6 @@ export default {
        this.mode = mode;
     },
     loadSchema(schema){
-      console.log('loadSchema    ',schema)
       this.formSchema = {...schema};
       this.mode = 'displayScenario';
     }

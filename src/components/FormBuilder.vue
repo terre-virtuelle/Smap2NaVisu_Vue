@@ -16,7 +16,7 @@
                 md="3"
             >
               <v-text-field
-                  v-model="localSchemaUsed.schema.title"
+                  v-model="title"
                   label="Title"
               ></v-text-field>
             </v-col>
@@ -37,7 +37,7 @@
                   color="info"
                   @click="openAddSectionDialog(false)"
               >
-                Add new section
+                Ajouter une question
               </v-btn>
               <v-btn
                   variant="outlined"
@@ -45,7 +45,7 @@
                   color="info"
                   @click="openAddFieldDialog(false)"
               >
-                Add new Field
+                Ajouter un champ
               </v-btn>
             </v-col>
           </v-row>
@@ -90,20 +90,29 @@ import AddSectionDialog from "@/components/AddSectionDialog";
 import SectionDisplay from "@/components/SectionDisplay";
 import AddFieldDialog from "@/components/AddFieldDialog";
 import FormDisplay from "@/components/FormDisplay";
-import {ref} from "vue";
+import {ref } from "vue";
 import Utils from "@/Utils";
 
 export default {
   name: "FormBuilder",
   components: {AddSectionDialog, SectionDisplay, AddFieldDialog, FormDisplay},
   props: ['schemaUsed'],
+  watch: {
+    title(nvVal){
+      this.localSchemaUsed.schema.title = nvVal;
+    }
+
+  },
   setup() {
     const localSchemaUsed = initNewSchema();
     const addSectionDialogIsOpen = ref(false);
     const addFieldIsOpen = ref(false);
     const asContent = ref(false);
     const sectionSelected = ref(null)
+    let title = ref(null)
     const prevIsDispay = ref(false)
+
+
 
     function initNewSchema() {
       return {
@@ -117,7 +126,7 @@ export default {
       }
     }
 
-    return {localSchemaUsed, addSectionDialogIsOpen, asContent, addFieldIsOpen, sectionSelected, prevIsDispay};
+    return {localSchemaUsed, addSectionDialogIsOpen, asContent, addFieldIsOpen, sectionSelected, prevIsDispay,title};
   },
   methods: {
     closeAddSectionDialog() {
@@ -184,7 +193,6 @@ export default {
     },
     showPreview() {
       this.prevIsDispay = true;
-      //this.$emit('loadSchema', this.localSchemaUsed)
     },
     hidePreview() {
       this.prevIsDispay = false;

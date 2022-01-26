@@ -7,7 +7,7 @@
     >
       <v-card>
         <v-card-title>
-          <span class="text-h5">Add field</span>
+          <span class="text-h5">Ajpouter un champ</span>
         </v-card-title>
         <v-card-text>
           <v-form>
@@ -52,14 +52,14 @@
               text
               @click="closeDialog"
           >
-            Close
+            Annuler
           </v-btn>
           <v-btn
               color="blue darken-1"
               text
               @click="save"
           >
-            Save
+            Ajouter
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -77,6 +77,23 @@ export default {
   setup(props, context) {
     // eslint-disable-next-line vue/no-setup-props-destructure
     let localIsOpen = props.isOpen;
+
+    const types = ref([
+      'color',
+      'date',
+      'datetime-local',
+      'email',
+      'month',
+      'password',
+      'number',
+      'range',
+      'tel',
+      'text',
+      'textarea',
+      'time',
+      'url',
+      'week'
+    ])
     let title = ref('');
     let name = ref('');
     let description = ref('');
@@ -90,15 +107,15 @@ export default {
     const save = () => {
       const field = {
         [name.value]: {
-          title:title.value,
-          description:description.value,
-          type:type.value
+          title: title.value,
+          description: description.value,
+          type: type.value
         }
       }
       context.emit('addField', field)
     }
     return {
-      localIsOpen, title, name, description, type, save ,closeDialog
+      localIsOpen, title, name, description, type,types, save, closeDialog
     }
   },
 }

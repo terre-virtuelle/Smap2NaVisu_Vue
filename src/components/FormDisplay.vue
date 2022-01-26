@@ -39,10 +39,8 @@ export default {
     })
     const validateData = async () =>{
       await ApiHelper.setHeader()
-      console.log('editor.getValue()  ',editor.getValue())
       const res = await ApiHelper.sendDataForm(editor.getValue())
       console.log('res from back  ',res)
-
     }
     return {
       editor,validateData
