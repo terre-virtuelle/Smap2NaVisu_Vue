@@ -13,6 +13,14 @@
         >
           Add new Field
         </v-btn>
+        <v-btn
+            variant="outlined"
+            size="large"
+            color="info"
+            @click="addNewSection(secVal)"
+        >
+          Add new Section
+        </v-btn>
       </div>
     </div>
   </div>
@@ -26,6 +34,9 @@ export default {
   methods: {
     addNewField(rowVal){
       this.$emit('openAddFieldDialog',[rowVal[0]])
+    },
+    addNewSection(rowVal){
+      this.$emit('openAddSectionDialog',[rowVal[0]])
     }
   }
 }
