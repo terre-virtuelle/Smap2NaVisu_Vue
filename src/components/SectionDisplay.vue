@@ -27,8 +27,9 @@
         </v-list-item-subtitle>
       </div>
       </v-list-item-content>
-      <v-divider inset></v-divider>
     </v-list-item>
+    <v-divider inset></v-divider>
+
   </div>
 </template>
 

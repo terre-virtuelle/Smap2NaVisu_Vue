@@ -1,9 +1,9 @@
 <template>
-  <v-row justify="center">
     <v-dialog
         v-model="localIsOpen"
         persistent
-        max-width="1800px"
+        transition="dialog-top-transition"
+        max-width="2000"
     >
       <v-card>
         <v-card-title>
@@ -11,38 +11,45 @@
         </v-card-title>
         <v-card-text>
           <v-form>
-            <v-col
-                cols="12"
-            >
+
               <v-text-field
                   v-model="title"
                   label="Title"
               ></v-text-field>
-            </v-col>
-            <v-col
-                cols="12"
-            >
+
               <v-text-field
                   v-model="name"
                   label="Name"
               ></v-text-field>
-            </v-col>
-            <v-col
-                cols="12"
-            >
+
               <v-text-field
                   v-model="description"
                   label="Description"
               ></v-text-field>
-            </v-col>
-            <v-col
-                cols="12"
-            >
+
               <v-text-field
-                  v-model="type"
-                  label="Type"
+                  v-model="defaultValue"
+                  label="Valeur par defaut"
               ></v-text-field>
-            </v-col>
+
+              <v-radio-group v-model="type">
+                <v-radio
+                    label="String"
+                    :value="'string'"
+                />
+                <v-radio
+                    label="Numerique"
+                    :value="'number'"
+                />
+              </v-radio-group>
+              <v-radio-group v-model="format">
+                <v-radio
+                    v-for="format in formats"
+                    :key="format"
+                    :label="format.label"
+                    :value="format.value"
+                ></v-radio>
+              </v-radio-group>
           </v-form>
         </v-card-text>
         <v-card-actions>
@@ -64,8 +71,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </v-row>
-
 </template>
 
 <script>
@@ -78,26 +83,28 @@ export default {
     // eslint-disable-next-line vue/no-setup-props-destructure
     let localIsOpen = props.isOpen;
 
-    const types = ref([
-      'color',
-      'date',
-      'datetime-local',
-      'email',
-      'month',
-      'password',
-      'number',
-      'range',
-      'tel',
-      'text',
-      'textarea',
-      'time',
-      'url',
-      'week'
+    const formats = ref([
+      {value:'color' , label:'couleur'},
+      {value:'date', label:'date'},
+      {value: 'datetime-local', label:'date et heure'},
+      {value: 'email', label:'mmail'},
+      {value: 'month', label:'mois'},
+      {value: 'password', label:'mot de passe'},
+      {value: 'number', label:'nombre'},
+      {value: 'range', label:'Intervalle'},
+      {value: 'tel', label:'telephone'},
+      {value:'text', label:'texte'},
+      {value: 'textarea', label:'large texte'},
+      {value: 'time', label:'heure'},
+      {value:'url', label:'url'},
+      {value: 'week', label:'semaine'}
     ])
     let title = ref('');
     let name = ref('');
     let description = ref('');
+    let defaultValue = ref('');
     let type = ref('');
+    let format = ref('');
     watch(() => props.isOpen, (nVal) => {
       localIsOpen = nVal
     });
@@ -109,13 +116,15 @@ export default {
         [name.value]: {
           title: title.value,
           description: description.value,
-          type: type.value
+          type: type.value,
+          default:defaultValue.value
         }
       }
+      console.log('field   ',field)
       context.emit('addField', field)
     }
     return {
-      localIsOpen, title, name, description, type,types, save, closeDialog
+      localIsOpen, title, name, description, type,defaultValue,format,formats, save, closeDialog
     }
   },
 }

@@ -2,6 +2,10 @@
   <div>
     <div id="editor_holder">
       </div>
+    <v-text-field
+        v-model="fileName"
+        label="file name"
+    ></v-text-field>
     <v-btn
         text
         color="primary"
@@ -14,7 +18,7 @@
 
 <script>
 import {JSONEditor} from "@json-editor/json-editor";
-import { onMounted , watch} from "vue";
+import { onMounted , watch , ref} from "vue";
 import ApiHelper from "@/ApiHelper";
 
 export default {
@@ -23,6 +27,7 @@ export default {
   // this component is written in the vuejs 3 way
   setup(props) {
     let editor = null
+    const fileName = ref('')
     // it will observe the change of props.formSchema
     watch(() => props.formSchema, (nv) => {
       const editor_holder = document.getElementById('editor_holder');
@@ -39,11 +44,11 @@ export default {
     })
     const validateData = async () =>{
       await ApiHelper.setHeader()
-      const res = await ApiHelper.sendDataForm(editor.getValue())
+      const res = await ApiHelper.sendDataForm({fileName:fileName.value,data:editor.getValue()})
       console.log('res from back  ',res)
     }
     return {
-      editor,validateData
+      editor,fileName,validateData
     }
   }
 }

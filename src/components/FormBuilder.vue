@@ -26,11 +26,6 @@
               <SectionDisplay v-if="asContent" :sections="localSchemaUsed.schema.properties"
                               @openAddFieldDialog="openAddFieldDialog" @openAddSectionDialog="openAddSectionDialog"/>
             </v-row>
-            <v-col
-                cols="12"
-                sm="6"
-                md="3"
-            >
               <v-btn
                   variant="outlined"
                   size="large"
@@ -47,32 +42,28 @@
               >
                 Ajouter un champ
               </v-btn>
-            </v-col>
           </v-row>
           <v-row>
-            <v-col
-                cols="12"
-                sm="6"
-                md="3"
-            >
+
               <v-btn
                   color="primary"
               >
                 Save
               </v-btn>
               <v-btn
+                  v-if="!prevIsDispay"
                   color="primary"
                   @click="showPreview"
               >
                 Show preview
               </v-btn>
               <v-btn
+                  v-else
                   color="primary"
                   @click="hidePreview"
               >
                 Hide preview
               </v-btn>
-            </v-col>
           </v-row>
         </v-form>
       </v-col>
@@ -111,8 +102,6 @@ export default {
     const sectionSelected = ref(null)
     let title = ref(null)
     const prevIsDispay = ref(false)
-
-
 
     function initNewSchema() {
       return {
