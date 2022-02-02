@@ -1,9 +1,10 @@
 <template>
   <v-app>
     <v-layout>
-      <AppBar/>
+      <AppBar @changeMode="changeMode"/>
     <v-main>
-      <FormDisplay :form-schema="formSchema"/>
+      <FormDisplay v-if="mode==='displayScenario'" :form-schema="formSchema" />
+      <ScenariosManager v-else/>
     </v-main>
     </v-layout>
   </v-app>
@@ -12,24 +13,34 @@
 <script>
 import FormDisplay from "@/components/FormDisplay";
 import AppBar from "@/components/AppBar";
+import ScenariosManager from "@/components/ScenariosManager";
 import scenarioModel from "../src/assets/scenarioModel.json"
+import {ref} from "vue";
 
 export default {
   name: 'App',
 
   components: {
     FormDisplay,
-    AppBar
+    AppBar,
+    ScenariosManager
   },
 
-  data: () => ({
-    formSchema:scenarioModel,
-    schemaUsed:null,
-  }),
-  methods:{
-    loadSchema(schema){
-      this.formSchema = {...schema};
-      this.mode = 'displayScenario';
+  setup() {
+    let formSchema = scenarioModel;
+    let mode  = ref('displayScenario');
+   const changeMode = (nvMode) => {
+      mode.value = nvMode;
+    }
+    const loadSchema = (schema) =>{
+      formSchema = {...schema};
+      mode.value = 'displayScenario';
+    }
+    return {
+      formSchema,
+      mode,
+      changeMode,
+      loadSchema
     }
   }
 }

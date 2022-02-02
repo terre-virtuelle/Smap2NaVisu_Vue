@@ -294,74 +294,7 @@
                       }
                     }
                   }
-                },
-                "3dmodel": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "title": "Modéles 3D",
-
-                    "format": "grid",
-                    "options": {
-                      "disable_edit_json": true,
-                      "disable_properties": true
-                    },
-                    "properties": {
-                      "file": {
-                        "type": "string",
-                        "title": "file",
-                        "media": {
-                          "binaryEncoding": "base64",
-                          "type": "glb/gltf/obj"
-                        },
-                        "options": {
-                          "grid_columns": 6,
-                          "multiple": true
-                        }
-                      },
-                      "description": {
-                        "type": "string",
-                        "title": "Description",
-                        "options": {
-                          "grid_columns": 6
-                        }
-                      },
-                      "title": {
-                        "type": "string",
-                        "title": "Title",
-                        "options": {
-                          "grid_columns": 6
-                        }
-                      },
-                      "position": {
-                        "type": "object",
-                        "title": "Position du modéle 3d",
-                        "format": "grid-strict",
-                        "options": {
-                          "disable_edit_json": true,
-                          "disable_properties": true
-                        },
-                        "properties": {
-                          "lat": {
-                            "title": "Latitude ",
-                            "type": "number",
-                            "options": {
-                              "grid_columns": 3
-                            }
-                          },
-                          "lon": {
-                            "title": "Longitude ",
-                            "type": "number",
-                            "options": {
-                              "grid_columns": 3
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
                 }
-
               }
             }
           }

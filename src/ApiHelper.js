@@ -11,8 +11,16 @@ class ApiHelper {
     static sendDataForm(data) {
         return  Axios({
             method: 'post',
-            url: ApiHelper.urlBase+'control',
+            url: ApiHelper.urlBase+'scenarios',
             data:data
+        });
+    }
+
+
+    static  getScenarios() {
+        return  Axios({
+            method: 'get',
+            url: ApiHelper.urlBase+'scenarios',
         });
     }
 
