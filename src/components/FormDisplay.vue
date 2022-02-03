@@ -30,6 +30,11 @@ export default {
     const fileName = ref('')
     // it will observe the change of props.formSchema
     watch(() => props.formSchema, (nv) => {
+      console.log('nv  ',nv)
+      if (nv.title){
+        fileName.value = nv.title;
+        delete nv.title
+      }
       const editor_holder = document.getElementById('editor_holder');
       // destroy the old editor
       editor.destroy();
@@ -38,6 +43,14 @@ export default {
     });
     // we use onMonter because setup() apend to early in the vue lifecycle
     onMounted(() => {
+      console.log('On mounted  ',props.formSchema)
+      if (props.formSchema.title){
+        fileName.value = props.formSchema.title;
+        delete props.formSchema.title
+      }
+      if (editor){
+        editor.destroy();
+      }
       const editor_holder = document.getElementById('editor_holder');
       // we ccan add another attributes in the options to add styles for example
       editor = new JSONEditor(editor_holder, props.formSchema);

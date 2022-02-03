@@ -4,7 +4,7 @@
       <AppBar @changeMode="changeMode"/>
     <v-main>
       <FormDisplay v-if="mode==='displayScenario'" :form-schema="formSchema" />
-      <ScenariosManager v-else/>
+      <ScenariosManager v-else @useScenario="useScenario"/>
     </v-main>
     </v-layout>
   </v-app>
@@ -16,6 +16,7 @@ import AppBar from "@/components/AppBar";
 import ScenariosManager from "@/components/ScenariosManager";
 import scenarioModel from "../src/assets/scenarioModel.json"
 import {ref} from "vue";
+import Utils from "@/Utils";
 
 export default {
   name: 'App',
@@ -27,20 +28,20 @@ export default {
   },
 
   setup() {
-    let formSchema = scenarioModel;
+    let formSchema = ref(scenarioModel);
     let mode  = ref('displayScenario');
    const changeMode = (nvMode) => {
       mode.value = nvMode;
     }
-    const loadSchema = (schema) =>{
-      formSchema = {...schema};
+    const useScenario = (scenario) =>{
+      formSchema.value = Utils.deepCloneObject(scenario);
       mode.value = 'displayScenario';
     }
     return {
       formSchema,
       mode,
       changeMode,
-      loadSchema
+      useScenario
     }
   }
 }
