@@ -20,6 +20,7 @@
 import {JSONEditor} from "@json-editor/json-editor";
 import { onMounted , watch , ref} from "vue";
 import ApiHelper from "@/ApiHelper";
+import Utils from "@/Utils";
 
 export default {
   name: "FormDisplay",
@@ -43,21 +44,32 @@ export default {
     });
     // we use onMonter because setup() apend to early in the vue lifecycle
     onMounted(() => {
-      console.log('On mounted  ',props.formSchema)
-      if (props.formSchema.title){
-        fileName.value = props.formSchema.title;
-        delete props.formSchema.title
+      const localSchema = props.formSchema.schema ? Utils.deepCloneObject(props.formSchema) : {schema:Utils.deepCloneObject(props.formSchema),theme: 'bootstrap4',
+        iconlib: 'fontawesome4'}
+      console.log('On mounted  ',localSchema)
+      //console.log('On mounted  ',Utils.deepCloneObject(props.formSchema))
+      if (localSchema.title){
+        fileName.value = localSchema.title;
+        delete localSchema.title
       }
+
       if (editor){
         editor.destroy();
       }
       const editor_holder = document.getElementById('editor_holder');
       // we ccan add another attributes in the options to add styles for example
-      editor = new JSONEditor(editor_holder, props.formSchema);
+      editor = new JSONEditor(editor_holder, localSchema);
     })
     const validateData = async () =>{
       await ApiHelper.setHeader()
-      const res = await ApiHelper.sendDataForm({fileName:fileName.value,data:editor.getValue()})
+      const schemaTosend = editor.schema;
+      const formValues = editor.getValue()
+      schemaTosend.properties = Object.entries(editor.schema.properties).map(([pk,pv]) => {
+        pv.default = formValues[pk];
+        return pv;
+      })
+      console.log('schemaTosend  ',schemaTosend)
+      const res = await ApiHelper.sendDataForm({fileName:fileName.value,data:schemaTosend})
       console.log('res from back  ',res)
     }
     return {

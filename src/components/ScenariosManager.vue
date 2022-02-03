@@ -1,10 +1,15 @@
 <template>
-<div v-if="Object.keys(scenarios).length > 1" >
+  <v-container>
+
+  <div v-if="Object.keys(scenarios).length > 1" >
+    <v-row>
   <div v-for="scenario in scenarios" :key="scenario.title">
+
     <ScManagerCards :scenario="scenario" @useScenario="useScenario"/>
-    <v-divider inset></v-divider>
   </div>
+    </v-row>
 </div>
+  </v-container>
 </template>
 
 <script>
@@ -29,6 +34,8 @@ export default {
   },
   methods:{
     useScenario(scenario){
+      console.log('sc manager  ',scenario)
+
       this.$emit('useScenario',scenario)
     }
   }

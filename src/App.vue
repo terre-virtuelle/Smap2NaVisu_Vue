@@ -16,7 +16,6 @@ import AppBar from "@/components/AppBar";
 import ScenariosManager from "@/components/ScenariosManager";
 import scenarioModel from "../src/assets/scenarioModel.json"
 import {ref} from "vue";
-import Utils from "@/Utils";
 
 export default {
   name: 'App',
@@ -34,7 +33,7 @@ export default {
       mode.value = nvMode;
     }
     const useScenario = (scenario) =>{
-      formSchema.value = Utils.deepCloneObject(scenario);
+      formSchema.value = scenario;
       mode.value = 'displayScenario';
     }
     return {
