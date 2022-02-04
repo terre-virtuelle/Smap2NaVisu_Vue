@@ -20,6 +20,13 @@
       >
         Editer
       </v-btn>
+      <v-btn
+          color="orange-lighten-2"
+          variant="text"
+          @click="deleteScenario"
+      >
+        Supprimer
+      </v-btn>
     </v-card-actions>
 
   </v-card>
@@ -39,6 +46,9 @@ export default {
   methods:{
     useScenario(){
       this.$emit('useScenario',Utils.deepCloneObject(this.scenario))
+    } ,
+    deleteScenario(){
+      this.$emit('deleteScenario',Utils.deepCloneObject(this.scenario))
     }
   }
 }

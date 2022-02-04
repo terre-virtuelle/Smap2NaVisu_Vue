@@ -62,12 +62,23 @@ export default {
     })
     const validateData = async () =>{
       await ApiHelper.setHeader()
+      console.log('editor  ',editor)
       const schemaTosend = editor.schema;
       const formValues = editor.getValue()
-      schemaTosend.properties = Object.entries(editor.schema.properties).map(([pk,pv]) => {
-        pv.default = formValues[pk];
-        return pv;
-      })
+      console.log('formValues  ',formValues)
+      // MUST BE AN OBJECT
+      schemaTosend.properties = Object.entries(editor.schema.properties).reduce((accumulator,[pk,pv]) => {
+        console.log('pk  ',pk)
+        console.log('pv  ',pv)
+        if (pv.title === 'Questions'){
+          pv = {...pv,...formValues[pk]}
+        }else {
+          pv.default = formValues[pk];
+        }
+        accumulator[pk] = pv;
+        return accumulator;
+      },{})
+
       console.log('schemaTosend  ',schemaTosend)
       const res = await ApiHelper.sendDataForm({fileName:fileName.value,data:schemaTosend})
       console.log('res from back  ',res)

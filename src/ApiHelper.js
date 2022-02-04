@@ -23,6 +23,13 @@ class ApiHelper {
             url: ApiHelper.urlBase+'scenarios',
         });
     }
+    static  deleteScenario(data) {
+        return  Axios({
+            method: 'delete',
+            url: ApiHelper.urlBase+'scenarios',
+            data:data
+        });
+    }
 
 }
 export default ApiHelper

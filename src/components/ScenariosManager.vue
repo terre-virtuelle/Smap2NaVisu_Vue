@@ -5,7 +5,7 @@
     <v-row>
   <div v-for="scenario in scenarios" :key="scenario.title">
 
-    <ScManagerCards :scenario="scenario" @useScenario="useScenario"/>
+    <ScManagerCards :scenario="scenario" @useScenario="useScenario" @deleteScenario="deleteScenario"/>
   </div>
     </v-row>
 </div>
@@ -34,9 +34,14 @@ export default {
   },
   methods:{
     useScenario(scenario){
-      console.log('sc manager  ',scenario)
-
-      this.$emit('useScenario',scenario)
+      this.$emit('useScenario',scenario);
+    },
+    deleteScenario(scenario){
+      const res = ApiHelper.deleteScenario(scenario);
+      console.log('res  ',res);
+      ApiHelper.getScenarios().then((res) => {
+        this.scenarios.value = res.data;
+      })
     }
   }
 }
