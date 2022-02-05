@@ -36,12 +36,13 @@ export default {
     useScenario(scenario){
       this.$emit('useScenario',scenario);
     },
-    deleteScenario(scenario){
-      const res = ApiHelper.deleteScenario(scenario);
+    async deleteScenario(scenarioTitle){
+      const res = await ApiHelper.deleteScenario({ title:scenarioTitle});
       console.log('res  ',res);
-      ApiHelper.getScenarios().then((res) => {
-        this.scenarios.value = res.data;
-      })
+      if (res.data === 'Scenario deleted'){
+        const resScenarios = await ApiHelper.getScenarios();
+        this.scenarios.value = resScenarios.data;
+      }
     }
   }
 }

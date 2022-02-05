@@ -23,6 +23,13 @@ class ApiHelper {
             url: ApiHelper.urlBase+'scenarios',
         });
     }
+    static  updateScenario(data) {
+        return  Axios({
+            method: 'put',
+            url: ApiHelper.urlBase+'scenarios',
+            data:data
+        });
+    }
     static  deleteScenario(data) {
         return  Axios({
             method: 'delete',

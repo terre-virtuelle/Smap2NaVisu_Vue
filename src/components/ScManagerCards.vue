@@ -45,10 +45,10 @@ export default {
   },
   methods:{
     useScenario(){
-      this.$emit('useScenario',Utils.deepCloneObject(this.scenario))
+      this.$emit('useScenario',Utils.deepCloneObject(this.scenario));
     } ,
     deleteScenario(){
-      this.$emit('deleteScenario',Utils.deepCloneObject(this.scenario))
+      this.$emit('deleteScenario',this.scenario.title);
     }
   }
 }
