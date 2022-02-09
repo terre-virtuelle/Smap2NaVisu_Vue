@@ -6,13 +6,25 @@
         v-model="fileName"
         label="file name"
     ></v-text-field>
-    <v-btn
-        text
-        color="primary"
-        @click="validateData"
-    >
-      Validate
-    </v-btn>
+    <div v-if="mode === 'newScenario'">
+      <v-btn
+          text
+          color="primary"
+          @click="validateData"
+      >
+        Créer un questionnaire
+      </v-btn>
+    </div>
+    <div v-else>
+      <v-btn
+          text
+          color="primary"
+          @click="validateData"
+      >
+        Modifier le questionnaire
+      </v-btn>
+    </div>
+
   </div>
 </template>
 
@@ -24,12 +36,12 @@ import Utils from "@/Utils";
 
 export default {
   name: "FormDisplay",
-  props: ['formSchema'],
+  props: ['formSchema','mode'],
   // this component is written in the vuejs 3 way
   setup(props) {
     let editor = null
     const fileName = ref('')
-    // it will observe the change of props.formSchema
+    // it will observe the change of props.formSchema but is useless
     watch(() => props.formSchema, (nv) => {
       console.log('nv  ',nv)
       if (nv.title){
@@ -44,12 +56,13 @@ export default {
     });
     // we use onMonter because setup() apend to early in the vue lifecycle
     onMounted(() => {
+      console.log('on monted formDispley   props.mode  ',props)
+      // change var name
       const localSchema = props.formSchema.schema ? Utils.deepCloneObject(props.formSchema) : {schema:Utils.deepCloneObject(props.formSchema),theme: 'bootstrap4',
         iconlib: 'fontawesome4'}
-      console.log('On mounted  ',localSchema)
-      //console.log('On mounted  ',Utils.deepCloneObject(props.formSchema))
-      if (localSchema.title){
-        fileName.value = localSchema.title;
+      if (localSchema.schema.title){
+        fileName.value = localSchema.schema.title;
+        console.log('on monted formDispley   fileName.value  ',fileName.value)
         delete localSchema.title
       }
 
@@ -62,7 +75,6 @@ export default {
     })
     const validateData = async () =>{
       await ApiHelper.setHeader()
-      console.log('editor  ',editor)
       const schemaTosend = editor.schema;
       const formValues = editor.getValue()
       console.log('formValues  ',formValues)

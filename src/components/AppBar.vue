@@ -1,30 +1,59 @@
 <template>
-  <v-app-bar density="compact" absolute>
+  <v-app-bar  absolute>
     <v-app-bar-title>smap2navisu</v-app-bar-title>
-    <v-spacer></v-spacer>
-    <v-divider inset vertical></v-divider>
-    <v-btn class="mr-3" text @click="changeMode('displayScenario')">Display Scenario</v-btn>
-    <v-divider inset vertical></v-divider>
-    <v-btn class="mr-3" text @click="changeMode('scenarioManager')">Scenario Manager</v-btn>
-    <v-divider inset vertical></v-divider>
+    <div class="text-center">
+    <v-menu offset-y>
+      <template v-slot:activator="{ props }">
+        <v-btn
+            color="primary"
+            v-bind="props"
+        >
+          Menu
+        </v-btn>
+      </template>
+      <v-list border="20" elevation="10"  rounded class="main-menu" density="compact">
+        <v-list-item @click="changeMode('newScenario')">
+          <v-list-item-title>Nouveau</v-list-item-title>
+        </v-list-item>
+        <v-divider  ></v-divider>
+        <v-list-item @click="changeMode('scenarioManager')">
+          <v-list-item-title>Ouvrir</v-list-item-title>
+        </v-list-item>
+        <v-divider  ></v-divider>
+        <v-list-item>
+          <v-list-item-title>Sauvegarder</v-list-item-title>
+        </v-list-item>
+        <v-divider  ></v-divider>
+        <v-list-item>
+          <v-list-item-title>Sauvegarder comme</v-list-item-title>
+        </v-list-item>
+        <v-divider  ></v-divider>
+        <v-list-item @click="exportScenario()">
+          <v-list-item-title>Exporter</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+    </div>
   </v-app-bar>
 </template>
 
 <script>
-import ApiHelper from "@/ApiHelper";
 
 export default {
   name: "AppBar",
   methods: {
-   async changeMode  (mode)  {
-      this.$emit('changeMode', mode)
-      const scenarios = await ApiHelper.getScenarios();
-      console.log('scenarios  ',scenarios);
+    changeMode  (mode)  {
+      this.$emit('changeMode', mode);
+    },
+    exportScenario  ()  {
+      this.$emit('exportScenario');
     }
   }
 }
 </script>
 
 <style scoped>
-
+.main-menu{
+  background-color: white;
+}
 </style>

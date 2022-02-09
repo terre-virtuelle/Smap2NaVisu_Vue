@@ -194,13 +194,6 @@
                           "grid_columns": 6
                         }
                       },
-                      "title": {
-                        "type": "string",
-                        "title": "Title",
-                        "options": {
-                          "grid_columns": 6
-                        }
-                      },
                       "position": {
                         "type": "object",
                         "title": "Position de l'image",
@@ -234,7 +227,6 @@
                   "items": {
                     "type": "object",
                     "title": "Vidéos",
-
                     "format": "grid",
                     "options": {
                       "disable_edit_json": true,
@@ -256,13 +248,6 @@
                       "description": {
                         "type": "string",
                         "title": "Description",
-                        "options": {
-                          "grid_columns": 6
-                        }
-                      },
-                      "title": {
-                        "type": "string",
-                        "title": "Title",
                         "options": {
                           "grid_columns": 6
                         }
