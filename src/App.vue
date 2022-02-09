@@ -1,10 +1,12 @@
 <template>
-  <v-app>
-    <v-layout>
+  <v-app class="overflow-hidden">
+    <v-layout >
       <AppBar @changeMode="changeMode" @exportScenario="exportScenario" @save="save"/>
       <v-main>
+        <v-container>
         <FormDisplay v-if="mode==='newScenario' || mode === 'editScenario'" :form-schema="formSchema" ref="formDisplay" />
         <ScenariosManager v-else  @useScenario="useScenario"/>
+        </v-container>
       </v-main>
     </v-layout>
   </v-app>

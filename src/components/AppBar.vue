@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar density="compact" absolute shrink-on-scroll>
+  <v-app-bar density="compact" app fixed  elevate-on-scroll>
     <div class="text-center">
       <v-menu offset-y>
         <template v-slot:activator="{ props }">
@@ -42,21 +42,18 @@
 export default {
   name: "AppBar",
   methods: {
-      changeMode(mode)
-      {
-        this.$emit('changeMode', mode);
-      }
+    changeMode(mode) {
+      this.$emit('changeMode', mode);
+    }
     ,
-      exportScenario()
-      {
-        this.$emit('exportScenario');
-      } ,
-    save()
-      {
-        this.$emit('save');
-      }
+    exportScenario() {
+      this.$emit('exportScenario');
+    },
+    save() {
+      this.$emit('save');
     }
   }
+}
 </script>
 
 <style scoped>
