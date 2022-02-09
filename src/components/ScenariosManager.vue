@@ -21,7 +21,8 @@ export default {
     ScManagerCards
   },
    setup() {
-    let scenarios = ref({})
+     console.log('ScenariosManager setup ')
+     let scenarios = ref({})
     onMounted(async() => {
       const res = await ApiHelper.getScenarios();
       console.log('res.data  ',res.data)

@@ -2,10 +2,10 @@
   <v-app>
     <v-layout>
       <AppBar @changeMode="changeMode" @exportScenario="exportScenario"/>
-    <v-main>
-      <FormDisplay v-if="mode==='newScenario' || mode === 'editScenario'" :mode="mode" :form-schema="formSchema" />
-      <ScenariosManager v-else  @useScenario="useScenario"/>
-    </v-main>
+      <v-main>
+        <FormDisplay v-if="mode==='newScenario' || mode === 'editScenario'" :mode="mode" :form-schema="formSchema" />
+        <ScenariosManager v-else  @useScenario="useScenario"/>
+      </v-main>
     </v-layout>
   </v-app>
 </template>
@@ -29,15 +29,16 @@ export default {
   setup() {
     let formSchema = ref(scenarioModel);
     let mode  = ref('newScenario');
-   const changeMode = (nvMode) => {
+    const changeMode = (nvMode) => {
       mode.value = nvMode;
     }
     const useScenario = (scenario) =>{
       formSchema.value = scenario;
+      mode.value = 'displayScenario';
       mode.value = 'editScenario';
     }
     const exportScenario = () => {
-     // here is the callBack
+      // here is the callBack
       // formSchema.value est la variable contenant le schema
       console.log(formSchema.value)
     }
@@ -51,3 +52,4 @@ export default {
   }
 }
 </script>
+

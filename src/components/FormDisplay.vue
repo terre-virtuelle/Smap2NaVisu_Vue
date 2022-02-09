@@ -74,7 +74,8 @@ export default {
       editor = new JSONEditor(editor_holder, localSchema);
     })
     const validateData = async () =>{
-      await ApiHelper.setHeader()
+      // we set the Axcios header when we launch the app
+      await ApiHelper.setHeader();
       const schemaTosend = editor.schema;
       const formValues = editor.getValue()
       console.log('formValues  ',formValues)
