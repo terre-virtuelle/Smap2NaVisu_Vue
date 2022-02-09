@@ -6,24 +6,7 @@
         v-model="fileName"
         label="file name"
     ></v-text-field>
-    <div v-if="mode === 'newScenario'">
-      <v-btn
-          text
-          color="primary"
-          @click="validateData"
-      >
-        Créer un questionnaire
-      </v-btn>
-    </div>
-    <div v-else>
-      <v-btn
-          text
-          color="primary"
-          @click="validateData"
-      >
-        Modifier le questionnaire
-      </v-btn>
-    </div>
+
 
   </div>
 </template>
@@ -36,7 +19,7 @@ import Utils from "@/Utils";
 
 export default {
   name: "FormDisplay",
-  props: ['formSchema','mode'],
+  props: ['formSchema'],
   // this component is written in the vuejs 3 way
   setup(props) {
     let editor = null
@@ -56,7 +39,6 @@ export default {
     });
     // we use onMonter because setup() apend to early in the vue lifecycle
     onMounted(() => {
-      console.log('on monted formDispley   props.mode  ',props)
       // change var name
       const localSchema = props.formSchema.schema ? Utils.deepCloneObject(props.formSchema) : {schema:Utils.deepCloneObject(props.formSchema),theme: 'bootstrap4',
         iconlib: 'fontawesome4'}
@@ -73,7 +55,7 @@ export default {
       // we ccan add another attributes in the options to add styles for example
       editor = new JSONEditor(editor_holder, localSchema);
     })
-    const getSchemaToSend = () => {
+    const getDataTosave = () => {
       const schemaTosend = editor.schema;
       const formValues = editor.getValue()
       schemaTosend.properties = Object.entries(editor.schema.properties).reduce((accumulator,[pk,pv]) => {
@@ -81,7 +63,7 @@ export default {
         accumulator[pk] = pv;
         return accumulator;
       },{})
-      return  schemaTosend;
+      return  {fileName:fileName.value,data:schemaTosend};
     }
     const validateData = async () =>{
       // we set the Axcios header when we launch the app
@@ -98,7 +80,7 @@ export default {
       console.log('res from back  ',res)
     }
     return {
-      editor,fileName,validateData,getSchemaToSend
+      editor,fileName,validateData,getDataTosave
     }
   }
 }

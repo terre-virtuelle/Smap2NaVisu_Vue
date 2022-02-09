@@ -1,6 +1,5 @@
 <template>
-  <v-app-bar density="compact" absolute>
-    <v-app-bar-title>smap2navisu</v-app-bar-title>
+  <v-app-bar density="compact" absolute shrink-on-scroll>
     <div class="text-center">
       <v-menu offset-y>
         <template v-slot:activator="{ props }">
@@ -34,6 +33,7 @@
         </v-list>
       </v-menu>
     </div>
+    <v-app-bar-title>smap2navisu</v-app-bar-title>
   </v-app-bar>
 </template>
 

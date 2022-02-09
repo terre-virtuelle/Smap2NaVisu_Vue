@@ -3,7 +3,7 @@
     <v-layout>
       <AppBar @changeMode="changeMode" @exportScenario="exportScenario" @save="save"/>
       <v-main>
-        <FormDisplay v-if="mode==='newScenario' || mode === 'editScenario'" :mode="mode" :form-schema="formSchema" ref="formDisplay" />
+        <FormDisplay v-if="mode==='newScenario' || mode === 'editScenario'" :form-schema="formSchema" ref="formDisplay" />
         <ScenariosManager v-else  @useScenario="useScenario"/>
       </v-main>
     </v-layout>
@@ -16,6 +16,7 @@ import AppBar from "@/components/AppBar";
 import ScenariosManager from "@/components/ScenariosManager";
 import scenarioModel from "../src/assets/scenarioModel.json"
 import {ref} from "vue";
+import ApiHelper from "@/ApiHelper";
 
 export default {
   name: 'App',
@@ -45,11 +46,12 @@ export default {
       // la variable avec le schema au format du backend
       console.log(formDisplay.value.getSchemaToSend())
     }
-    const save = () => {
+    const save = async () => {
       // here is the callBack
       // formSchema.value est la variable contenant le schema
-      console.log('save editor values   ',formDisplay.value)
-      console.log('save getSchemaToSend ',formDisplay.value.getSchemaToSend())
+      const dataToSave = formDisplay.value.getDataTosave();
+      const res = await ApiHelper.sendDataForm(dataToSave)
+      console.log('res from back  ',res)
     }
     return {
       formSchema,
