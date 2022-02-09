@@ -73,13 +73,22 @@ export default {
       // we ccan add another attributes in the options to add styles for example
       editor = new JSONEditor(editor_holder, localSchema);
     })
+    const getSchemaToSend = () => {
+      const schemaTosend = editor.schema;
+      const formValues = editor.getValue()
+      schemaTosend.properties = Object.entries(editor.schema.properties).reduce((accumulator,[pk,pv]) => {
+        pv.default = formValues[pk];
+        accumulator[pk] = pv;
+        return accumulator;
+      },{})
+      return  schemaTosend;
+    }
     const validateData = async () =>{
       // we set the Axcios header when we launch the app
       await ApiHelper.setHeader();
       const schemaTosend = editor.schema;
       const formValues = editor.getValue()
       console.log('formValues  ',formValues)
-      // MUST BE AN OBJECT
       schemaTosend.properties = Object.entries(editor.schema.properties).reduce((accumulator,[pk,pv]) => {
           pv.default = formValues[pk];
         accumulator[pk] = pv;
@@ -89,7 +98,7 @@ export default {
       console.log('res from back  ',res)
     }
     return {
-      editor,fileName,validateData
+      editor,fileName,validateData,getSchemaToSend
     }
   }
 }

@@ -20,7 +20,7 @@
             <v-list-item-title>Ouvrir</v-list-item-title>
           </v-list-item>
           <v-divider></v-divider>
-          <v-list-item>
+          <v-list-item @click="save()">
             <v-list-item-title>Sauvegarder</v-list-item-title>
           </v-list-item>
           <v-divider></v-divider>
@@ -50,6 +50,10 @@ export default {
       exportScenario()
       {
         this.$emit('exportScenario');
+      } ,
+    save()
+      {
+        this.$emit('save');
       }
     }
   }
