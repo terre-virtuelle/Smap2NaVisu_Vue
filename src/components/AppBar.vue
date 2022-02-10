@@ -5,6 +5,7 @@
         <template v-slot:activator="{ props }">
           <v-btn
               color="primary"
+              variant="outlined"
               v-bind="props"
           >
             Fichier
@@ -23,7 +24,7 @@
             <v-list-item-title>Sauvegarder</v-list-item-title>
           </v-list-item>
           <v-divider></v-divider>
-          <v-list-item>
+          <v-list-item @click="openDialogSaveAs()">
             <v-list-item-title>Sauvegarder comme</v-list-item-title>
           </v-list-item>
           <v-divider></v-divider>
@@ -51,6 +52,9 @@ export default {
     },
     save() {
       this.$emit('save');
+    } ,
+    openDialogSaveAs() {
+      this.$emit('openDialogSaveAs');
     }
   }
 }
