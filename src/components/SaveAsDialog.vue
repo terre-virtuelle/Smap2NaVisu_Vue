@@ -52,6 +52,7 @@ export default {
     const fileName = ref('');
 
     watch(() => props.isOpen, (nVal) => {
+      console.log('props.isOpen  ',props.isOpen)
       localIsOpen = nVal
     });
     const closeDialog = () => {
