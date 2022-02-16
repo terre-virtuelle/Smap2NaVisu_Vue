@@ -14,7 +14,6 @@
 <script>
 import {JSONEditor} from "@json-editor/json-editor";
 import { onMounted , watch , ref} from "vue";
-import ApiHelper from "@/ApiHelper";
 import Utils from "@/Utils";
 
 export default {
@@ -65,22 +64,9 @@ export default {
       },{})
       return  {fileName:fileName.value,data:schemaTosend};
     }
-    const validateData = async () =>{
-      // we set the Axcios header when we launch the app
-      await ApiHelper.setHeader();
-      const schemaTosend = editor.schema;
-      const formValues = editor.getValue()
-      console.log('formValues  ',formValues)
-      schemaTosend.properties = Object.entries(editor.schema.properties).reduce((accumulator,[pk,pv]) => {
-          pv.default = formValues[pk];
-        accumulator[pk] = pv;
-        return accumulator;
-      },{})
-      const res = await ApiHelper.sendDataForm({fileName:fileName.value,data:schemaTosend})
-      console.log('res from back  ',res)
-    }
+
     return {
-      editor,fileName,validateData,getDataTosave
+      editor,fileName,getDataTosave
     }
   }
 }

@@ -25,11 +25,7 @@ export default {
      let scenarios = ref({})
     onMounted(async() => {
       const res = await ApiHelper.getScenarios();
-      console.log('res.data  ',res.data)
       scenarios.value = res.data;
-      console.log('scenarios.value  ',scenarios.value)
-
-
     })
     return {scenarios}
   },

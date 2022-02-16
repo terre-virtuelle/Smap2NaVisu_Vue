@@ -15,21 +15,25 @@
           <v-list-item @click="changeMode('newScenario')">
             <v-list-item-title>Nouveau</v-list-item-title>
           </v-list-item>
-          <v-divider></v-divider>
+          <v-divider/>
           <v-list-item @click="changeMode('scenarioManager')">
             <v-list-item-title>Ouvrir</v-list-item-title>
           </v-list-item>
-          <v-divider></v-divider>
+          <v-divider/>
           <v-list-item @click="save()">
             <v-list-item-title>Sauvegarder</v-list-item-title>
           </v-list-item>
-          <v-divider></v-divider>
+          <v-divider/>
           <v-list-item @click="openDialogSaveAs()">
             <v-list-item-title>Sauvegarder comme</v-list-item-title>
           </v-list-item>
-          <v-divider></v-divider>
+          <v-divider/>
           <v-list-item @click="exportScenario()">
             <v-list-item-title>Exporter</v-list-item-title>
+          </v-list-item>
+          <v-divider/>
+          <v-list-item @click="useDlPanel()">
+            <v-list-item-title>Télecharger</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -55,6 +59,9 @@ export default {
     } ,
     openDialogSaveAs() {
       this.$emit('openDialogSaveAs');
+    },
+    useDlPanel() {
+      this.$emit('useDlPanel');
     }
   }
 }
