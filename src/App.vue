@@ -1,7 +1,7 @@
 <template>
   <v-app class="overflow-hidden">
     <v-layout >
-      <AppBar @changeMode="changeMode" @exportScenario="exportScenario" @save="save" @openDialogSaveAs="openDialogSaveAs" @useDlPanel="useDlPanel"/>
+      <AppBar :mode="mode" @changeMode="changeMode" @exportScenario="exportScenario" @save="save" @openDialogSaveAs="openDialogSaveAs" @useDlPanel="useDlPanel"/>
       <v-main>
         <SaveAsDialog v-if="dialogSaveAsIsOpen" :is-open="dialogSaveAsIsOpen" @closeDialog="closeDialogSaveAs" @save="save"/>
         <v-container>
