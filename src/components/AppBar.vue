@@ -32,7 +32,7 @@
             </v-list-item>
             <v-divider/>
             <v-list-item @click="exportScenario()">
-              <v-list-item-title>Exporter</v-list-item-title>
+              <v-list-item-title>Exporter en pdf</v-list-item-title>
             </v-list-item>
             <v-divider/>
             <v-list-item @click="useDlPanel()">

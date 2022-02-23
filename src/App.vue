@@ -20,9 +20,9 @@ import AppBar from "@/components/AppBar";
 import ScenariosManager from "@/components/ScenariosManager";
 import SaveAsDialog from "@/components/SaveAsDialog";
 import DowloadsManager from "@/components/DowloadsManager";
-import scenarioModel from "../src/assets/scenarioModel.json"
 import {ref} from "vue";
 import ApiHelper from "@/ApiHelper";
+import ScenarioDm from "@/ScenarioDm";
 
 export default {
   name: 'App',
@@ -36,7 +36,7 @@ export default {
   },
 
   setup() {
-    let formSchema = ref(scenarioModel);
+    let formSchema = ref(new ScenarioDm());
     let mode  = ref('newScenario');
     let formDisplay  = ref(null);
     let dialogSaveAsIsOpen = ref(false);
@@ -44,29 +44,31 @@ export default {
     const changeMode = (nvMode) => {
       mode.value = nvMode;
       if (nvMode === 'newScenario'){
-        formSchema.value = scenarioModel;
+        formSchema.value = new ScenarioDm();
+        console.log('formSchema.value',formSchema.value)
       }
     }
     const useScenario = (scenario) =>{
-      formSchema.value = scenario;
+      formSchema.value = new ScenarioDm(scenario);
       mode.value = 'displayScenario';
       mode.value = 'editScenario';
     }
     const exportScenario = async () => {
+      // need change here
       const dataToSave = formDisplay.value.getDataTosave();
-      const res = await ApiHelper.exportScenario(dataToSave);
-      console.log('res from back  ',res)
+      await ApiHelper.exportScenario(dataToSave);
     }
     const save = async (filename=null) => {
+      // need change here
       const dataToSave = formDisplay.value.getDataTosave();
       if(filename){
         dataToSave.fileName = filename;
         dialogSaveAsIsOpen.value = false;
       }
-      const res = await ApiHelper.sendDataForm(dataToSave)
-      console.log('res from back  ',res)
+       await ApiHelper.sendDataForm(dataToSave)
     }
     const useDlPanel = async () => {
+      // need change here just let it more simple
       const dataToSave = formDisplay.value.getDataTosave();
       const res = await ApiHelper.getScenariosFilesPaths(dataToSave)
       mode.value = 'dowload';
