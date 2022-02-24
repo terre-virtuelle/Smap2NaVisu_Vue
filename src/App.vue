@@ -3,6 +3,12 @@
     <v-layout >
       <AppBar :mode="mode" @changeMode="changeMode" @exportScenario="exportScenario" @save="save" @openDialogSaveAs="openDialogSaveAs" @useDlPanel="useDlPanel"/>
       <v-main>
+        <v-alert
+            type="error"
+            v-if="alertIsopen"
+            @click="closeAlert">
+          {{alertText}}
+        </v-alert>
         <SaveAsDialog v-if="dialogSaveAsIsOpen" :is-open="dialogSaveAsIsOpen" @closeDialog="closeDialogSaveAs" @save="save"/>
         <v-container>
         <FormDisplay v-if="mode==='newScenario' || mode === 'editScenario'" :form-schema="formSchema" ref="formDisplay" />
@@ -41,6 +47,9 @@ export default {
     let formDisplay  = ref(null);
     let dialogSaveAsIsOpen = ref(false);
     let schemaFiles = ref(null);
+    const alertIsopen = ref(false);
+    const alertText = ref('')
+
     const changeMode = (nvMode) => {
       mode.value = nvMode;
       if (nvMode === 'newScenario'){
@@ -63,8 +72,13 @@ export default {
       if(filename){
         dataToSave.fileName = filename;
         dialogSaveAsIsOpen.value = false;
+        await ApiHelper.sendDataForm(dataToSave)
+      }else if(dataToSave.fileName){
+        await ApiHelper.sendDataForm(dataToSave)
+      }else {
+        alertIsopen.value = true;
+        alertText.value = "entrer un nom de fichier s'il vous plait."
       }
-       await ApiHelper.sendDataForm(dataToSave)
     }
     const useDlPanel = async () => {
       // need change here just let it more simple
@@ -79,19 +93,26 @@ export default {
     const closeDialogSaveAs = () => {
       dialogSaveAsIsOpen.value = false;
     }
+    const closeAlert = () => {
+      alertIsopen.value = false;
+      alertText.value = '';
+    }
     return {
       formSchema,
       mode,
       formDisplay,
       dialogSaveAsIsOpen,
       schemaFiles,
+      alertIsopen,
+      alertText,
       changeMode,
       useScenario,
       exportScenario,
       save,
       useDlPanel,
       openDialogSaveAs,
-      closeDialogSaveAs
+      closeDialogSaveAs,
+      closeAlert
     }
   }
 }
