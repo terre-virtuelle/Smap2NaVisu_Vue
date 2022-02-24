@@ -45,7 +45,6 @@ export default {
       mode.value = nvMode;
       if (nvMode === 'newScenario'){
         formSchema.value = new ScenarioDm();
-        console.log('formSchema.value',formSchema.value)
       }
     }
     const useScenario = (scenario) =>{

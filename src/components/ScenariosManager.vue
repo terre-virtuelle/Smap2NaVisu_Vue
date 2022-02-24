@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div v-if="Object.keys(scenarios).length > 1">
+    <div v-if="Object.keys(scenarios).length > 0">
       <v-row>
         <div v-for="scenario in scenarios" :key="scenario.title">
           <ScManagerCards :scenario="scenario" @useScenario="useScenario" @deleteScenario="deleteScenario"/>
@@ -20,10 +20,9 @@ export default {
   components: {
     ScManagerCards
   },
-   setup() {
-     console.log('ScenariosManager setup ')
-     let scenarios = ref({})
-    onMounted(async() => {
+  setup() {
+    let scenarios = ref({});
+    onMounted(async () => {
       const res = await ApiHelper.getScenarios();
       scenarios.value = res.data;
     })
