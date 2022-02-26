@@ -1,5 +1,5 @@
 // this class will be used to reprensent the model of  a scenario in the front
-import formBaseModel from "../src/assets/scenarioModel.json"
+import formBaseModel from "../src/assets/scenarioModel2.json"
 
 class ScenarioDm{
     constructor(datas = null) {
