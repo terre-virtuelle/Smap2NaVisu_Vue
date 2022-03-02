@@ -24,7 +24,7 @@ export default {
     // it will observe the change of props.formSchema but is useless
     watch(() => props.formSchema, (nv) => {
       if (nv.title){
-        fileName.value = nv.title;
+        fileName.value = nv.fileName;
         delete nv.title
       }
       const editor_holder = document.getElementById('editor_holder');
@@ -40,6 +40,9 @@ export default {
       const editor_holder = document.getElementById('editor_holder');
       // we ccan add another attributes in the options to add styles for example
       editor = new JSONEditor(editor_holder,  props.formSchema.getFormDisplay());
+      fileName.value = props.formSchema.fileName;
+      console.log('props.formSchema ',props.formSchema)
+      console.log('filename ',fileName.value)
     })
 
     const getDataTosave = () => {

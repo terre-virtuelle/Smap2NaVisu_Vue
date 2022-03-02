@@ -1,18 +1,38 @@
 {
-  "schema": {
-    "title": "Activités maritimes en rade de Brest",
+  "schema":  {
+    "title": "Scénario du Centre Nautique",
     "type": "object",
+     "description": "Différentes activités maritimes existent en Rade de Brest. Pour les découvrir, suivez les indications ci-dessous et répondez aux quelques questions. ",
+    "format": "grid",
     "required": [
       "origin",
       "date",
       "bbox",
       "questions"
     ],
-    "options": {
+   "options": {
       "disable_edit_json": true,
       "disable_properties": true
     },
     "properties": {
+       "cmd": {
+        "title": "Type",
+        "type": "string",
+        "description": "Mot clé réservé, ne pas modifier",
+        "enum": [
+          "scenario"
+        ]
+      },
+      "title": {
+        "title": "Titre",
+        "type": "string",
+        "format": "grid-strict",
+        "description": "Intitulé du scénario",
+        "options": {
+          "grid_columns": 5
+        },
+        "default": "Activités maritimes en rade de Brest"
+      },
       "origin": {
         "title": "Origine",
         "type": "string",
@@ -21,10 +41,10 @@
         "options": {
           "grid_columns": 5
         },
-        "default": "Smaug"
+        "default": "Terre Virtuelle"
       },
       "date": {
-        "title": "Date",
+        "title": "Entrez la date",
         "id": "date",
         "type": "object",
         "format": "grid-strict",
@@ -34,7 +54,7 @@
           "grid_columns": 3
         },
         "properties": {
-          "Entrez la date :": {
+          "date :": {
             "type": "string",
             "format": "date",
             "options": {
@@ -104,8 +124,34 @@
             "disable_edit_json": true,
             "disable_properties": true
           },
-          "properties": {
-            "texte": {
+           "properties": {
+              "position": {
+                        "type": "object",
+                        "title": "Position de départ",
+                        "format": "grid-strict",
+                        "options": {
+                          "disable_edit_json": true,
+                          "disable_properties": true
+                        },
+                        "properties": {
+                          "lat": {
+                            "title": "Latitude ",
+                            "type": "number",
+                            "description": "Degrés décimaux",
+                            "options": {
+                              "grid_columns": 3
+                            }
+                          },
+                          "lon": {
+                            "title": "Longitude ",
+                            "type": "number",
+                            "options": {
+                              "grid_columns": 3
+                            }
+                          }
+                        }
+          },
+            "text": {
               "type": "string",
               "title": "Texte",
               "description": "Rédiger le corps de la question"
@@ -115,19 +161,33 @@
               "title": "Imagerie sur le terrain ",
               "description": "Sélectionner une couche",
               "enum": [
+                "Bing",
                 "S57:depare",
-                "assetId: 361158",
-                "ESRI"
+                "7400",
+                "OpenTopoMap",
+                "EMODNet bathymetry",
+                "GEBCO bathymetry"
+              ],
+              "default": "Bing"
+            },
+            "weather": {
+              "type": "string",
+              "title": "Environnement ",
+              "description": "Sélectionner un outil",
+              "enum": [
+                "Brouillard",
+                "Pluie",
+                "Neige"
               ],
               "default": ""
             },
-            "balisage": {
+            "buoyage": {
               "type": "string",
               "format": "radio",
               "title": "Balisage",
               "enum": [
-                "oui",
-                "non"
+                "non",
+                "oui"
               ]
             },
             "target": {
@@ -137,21 +197,23 @@
               "enum": [
                 "camera",
                 "ship",
-                "drone"
+                "camera+ship"
               ],
-              "default": "camera"
+              "default": "ship"
             },
             "cmd": {
               "type": "string",
               "title": "Commande de l'objet dans NaVisu4D",
-              "description": "Sélectionner une action",
+              "description": "Sélectionner une action :",
               "enum": [
-                "move",
-                "goTo"
+                "track",
+                "goTo",
+                "moveTo",
+                "flyTo"
               ],
               "default": "goTo"
             },
-            "responses": {
+            "response": {
               "type": "object",
               "title": "Réponse",
               "options": {
@@ -159,7 +221,33 @@
                 "disable_properties": true
               },
               "properties": {
-                "texte": {
+                "position": {
+                        "type": "object",
+                        "title": "Position d'arrivée",
+                        "format": "grid-strict",
+                        "options": {
+                          "disable_edit_json": true,
+                          "disable_properties": true
+                        },
+                        "properties": {
+                          "lat": {
+                            "title": "Latitude ",
+                            "type": "number",
+                            "description": "Degrés décimaux",
+                            "options": {
+                              "grid_columns": 3
+                            }
+                          },
+                          "lon": {
+                            "title": "Longitude ",
+                            "type": "number",
+                            "options": {
+                              "grid_columns": 3
+                            }
+                          }
+                        }
+                },
+                "text": {
                   "type": "string",
                   "title": "Texte",
                   "description": "Rédiger le corps de la réponse"

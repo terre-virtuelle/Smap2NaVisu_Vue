@@ -48,7 +48,7 @@ export default {
       this.$emit('useScenario',Utils.deepCloneObject(this.scenario));
     } ,
     deleteScenario(){
-      this.$emit('deleteScenario',this.scenario.title);
+      this.$emit('deleteScenario',this.scenario.fileName);
     }
   }
 }
