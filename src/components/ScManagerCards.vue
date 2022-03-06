@@ -5,7 +5,8 @@
   >
 
     <v-card-title>
-      {{scenario.title}}
+     Titre : {{scenario.title}} <br>
+      Nom du fichier : {{scenario.fileName}}
     </v-card-title>
 
     <v-card-subtitle>

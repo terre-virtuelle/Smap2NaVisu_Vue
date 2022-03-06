@@ -41,8 +41,6 @@ export default {
       // we ccan add another attributes in the options to add styles for example
       editor = new JSONEditor(editor_holder,  props.formSchema.getFormDisplay());
       fileName.value = props.formSchema.fileName;
-      console.log('props.formSchema ',props.formSchema)
-      console.log('filename ',fileName.value)
     })
 
     const getDataTosave = () => {
