@@ -166,7 +166,10 @@
                 "7400",
                 "OpenTopoMap",
                 "EMODNet bathymetry",
-                "GEBCO bathymetry"
+                "GEBCO bathymetry",
+                "Zones de Pêche",
+                "Cultures Maritimes",
+                "Sedimentology"
               ],
               "default": "Bing"
             },
@@ -177,7 +180,8 @@
               "enum": [
                 "Brouillard",
                 "Pluie",
-                "Neige"
+                "Neige",
+                "Beau temps"
               ],
               "default": ""
             },

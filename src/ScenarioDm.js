@@ -11,6 +11,7 @@ class ScenarioDm{
          this.bbox = datas.bbox;
          this.introduction = datas.introduction;
          this.questions = datas.questions;
+            this.cmd=datas.cmd;
         }else {
             this.title = '';
             this.origin = '';
