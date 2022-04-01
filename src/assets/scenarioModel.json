@@ -15,14 +15,6 @@
       "disable_properties": true
     },
     "properties": {
-       "cmd": {
-        "title": "Type",
-        "type": "string",
-        "description": "Mot clé réservé, ne pas modifier",
-        "enum": [
-          "scenario"
-        ]
-      },
       "title": {
         "title": "Titre",
         "type": "string",
