@@ -21,12 +21,12 @@ class ScenarioDm{
         }
     }
     getFormDisplay(){
-        const formBase = formBaseModel;
-        formBase.schema.properties = Object.entries(formBase.schema.properties).reduce((accumulator,[pk,pv]) => {
-          pv.default = this[pk];
-         accumulator[pk] = pv;
-         return accumulator;
-        },{})
+           const formBase = formBaseModel;
+           formBase.schema.properties = Object.entries(formBase.schema.properties).reduce((accumulator,[pk,pv]) => {
+               pv.default = this[pk];
+               accumulator[pk] = pv;
+               return accumulator;
+           },{})
         return formBase;
     }
 

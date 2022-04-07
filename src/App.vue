@@ -1,19 +1,28 @@
 <template>
   <v-app class="overflow-hidden">
-    <v-layout >
-      <AppBar :mode="mode" @changeMode="changeMode" @exportScenario="exportScenario" @save="save" @openDialogSaveAs="openDialogSaveAs" @useDlPanel="useDlPanel"/>
+    <v-layout>
+      <AppBar :mode="mode" @changeMode="changeMode" @exportScenario="exportScenario" @save="save"
+              @openDialogSaveAs="openDialogSaveAs" @useDlPanel="useDlPanel"/>
       <v-main>
         <v-alert
             type="error"
             v-if="alertIsopen"
             @click="closeAlert">
-          {{alertText}}
+          {{ alertText }}
         </v-alert>
-        <SaveAsDialog v-if="dialogSaveAsIsOpen" :is-open="dialogSaveAsIsOpen" @closeDialog="closeDialogSaveAs" @save="save"/>
+        <SaveAsDialog v-if="dialogSaveAsIsOpen" :is-open="dialogSaveAsIsOpen" @closeDialog="closeDialogSaveAs"
+                      @save="save"/>
         <v-container>
-        <FormDisplay v-if="mode==='newScenario' || mode === 'editScenario'" :form-schema="formSchema" ref="formDisplay" />
-          <DowloadsManager v-else-if="mode==='dowload' && schemaFiles" :schemaFiles="schemaFiles"/>
-        <ScenariosManager v-else  @useScenario="useScenario"/>
+          <v-row   v-if="mode==='isLoaded'"  align-center>
+            <v-progress-circular :size="400"
+                                 :width="30"
+                                 indeterminate
+                                 color="primary"/>
+          </v-row>
+          <FormDisplay v-if="mode==='newScenario' || mode === 'editScenario'" :form-schema="formSchema"
+                       ref="formDisplay"/>
+          <DowloadsManager v-else-if="mode==='dowload' && schemaFiles " :schemaFiles="schemaFiles"/>
+          <ScenariosManager v-else-if="mode==='scenarioManager' " @useScenario="useScenario"/>
         </v-container>
       </v-main>
     </v-layout>
@@ -32,7 +41,6 @@ import ScenarioDm from "@/ScenarioDm";
 
 export default {
   name: 'App',
-
   components: {
     FormDisplay,
     AppBar,
@@ -43,8 +51,8 @@ export default {
 
   setup() {
     let formSchema = ref(new ScenarioDm());
-    let mode  = ref('newScenario');
-    let formDisplay  = ref(null);
+    let mode = ref('newScenario');
+    let formDisplay = ref(null);
     let dialogSaveAsIsOpen = ref(false);
     let schemaFiles = ref(null);
     const alertIsopen = ref(false);
@@ -52,30 +60,34 @@ export default {
 
     const changeMode = (nvMode) => {
       mode.value = nvMode;
-      if (nvMode === 'newScenario'){
+      if (nvMode === 'newScenario') {
         formSchema.value = new ScenarioDm();
       }
     }
-    const useScenario = (scenario) =>{
+    const useScenario = (scenario) => {
       formSchema.value = new ScenarioDm(scenario);
-      mode.value = 'displayScenario';
-      mode.value = 'editScenario';
+      changeMode('isLoaded');
+      setTimeout(() => {
+        changeMode('editScenario');
+      }, 250);
+
+
     }
     const exportScenario = async () => {
       // need change here
       const dataToSave = formDisplay.value.getDataTosave();
       await ApiHelper.exportScenario(dataToSave);
     }
-    const save = async (filename=null) => {
+    const save = async (filename = null) => {
       // need change here
       const dataToSave = formDisplay.value.getDataTosave();
-      if(filename){
+      if (filename) {
         dataToSave.fileName = filename;
         dialogSaveAsIsOpen.value = false;
         await ApiHelper.sendDataForm(dataToSave)
-      }else if(dataToSave.fileName){
+      } else if (dataToSave.fileName) {
         await ApiHelper.sendDataForm(dataToSave)
-      }else {
+      } else {
         alertIsopen.value = true;
         alertText.value = "entrer un nom de fichier s'il vous plait."
       }
@@ -84,7 +96,7 @@ export default {
       // need change here just let it more simple
       const dataToSave = formDisplay.value.getDataTosave();
       const res = await ApiHelper.getScenariosFilesPaths(dataToSave)
-      mode.value = 'dowload';
+      changeMode('dowload');
       schemaFiles.value = res.data
     }
     const openDialogSaveAs = () => {

@@ -1,59 +1,52 @@
 <template>
   <div>
     <div id="editor_holder">
-      </div>
+    </div>
     <v-text-field
         v-model="fileName"
         label="file name"
     ></v-text-field>
-
 
   </div>
 </template>
 
 <script>
 import {JSONEditor} from "@json-editor/json-editor";
-import { onMounted , watch , ref} from "vue";
+import { onMounted, ref} from "vue";
+
 export default {
   name: "FormDisplay",
   props: ['formSchema'],
   // this component is written in the vuejs 3 way
   setup(props) {
     let editor = null
-    const fileName = ref('')
-    // it will observe the change of props.formSchema but is useless
-    watch(() => props.formSchema, (nv) => {
-      if (nv.title){
-        fileName.value = nv.fileName;
-        delete nv.title
-      }
-      const editor_holder = document.getElementById('editor_holder');
-      // destroy the old editor
-      editor.destroy();
-      // we ccan add another attributes in the options to add styles for example
-      editor = new JSONEditor(editor_holder, nv.getFormDisplay());
-    });
+    const fileName = ref('');
+
     onMounted(() => {
-      if (editor){
-        editor.destroy();
-      }
-      const editor_holder = document.getElementById('editor_holder');
-      // we ccan add another attributes in the options to add styles for example
-      editor = new JSONEditor(editor_holder,  props.formSchema.getFormDisplay());
+      initEditor();
       fileName.value = props.formSchema.fileName;
     })
 
     const getDataTosave = () => {
-      return  {fileName:fileName.value,data:editor.getValue()};
+      return {fileName: fileName.value, data: editor.getValue()};
+    }
+
+    const initEditor = () => {
+      if (editor) {
+        editor.destroy();
+      }
+      const editor_holder = document.getElementById('editor_holder');
+      // we can add another attributes in the options to add styles for example
+      editor = new JSONEditor(editor_holder, props.formSchema.getFormDisplay());
     }
 
     return {
-      editor,fileName,getDataTosave
+      editor, fileName, getDataTosave
     }
   }
 }
 </script>
 
 <style>
-@import'~bootstrap/dist/css/bootstrap.css';
+@import '~bootstrap/dist/css/bootstrap.css';
 </style>
