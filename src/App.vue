@@ -13,12 +13,13 @@
         <SaveAsDialog v-if="dialogSaveAsIsOpen" :is-open="dialogSaveAsIsOpen" @closeDialog="closeDialogSaveAs"
                       @save="save"/>
         <v-container>
-          <v-row   v-if="mode==='isLoaded'"  align-center>
+            <div v-if="mode==='isLoaded'"  class="progress-bar-col">
             <v-progress-circular :size="400"
                                  :width="30"
                                  indeterminate
+                                 class="progress-bar-circular"
                                  color="primary"/>
-          </v-row>
+            </div>
           <FormDisplay v-if="mode==='newScenario' || mode === 'editScenario'" :form-schema="formSchema"
                        ref="formDisplay"/>
           <DowloadsManager v-else-if="mode==='dowload' && schemaFiles " :schemaFiles="schemaFiles"/>
@@ -68,7 +69,7 @@ export default {
       formSchema.value = new ScenarioDm(scenario);
       changeMode('isLoaded');
       setTimeout(() => {
-        changeMode('editScenario');
+        //changeMode('editScenario');
       }, 250);
 
 
@@ -129,4 +130,13 @@ export default {
   }
 }
 </script>
+
+<style >
+.progress-bar-circular{
+  padding-left: 100vw;
+}
+.progress-bar-col{
+  padding-top: 20vh;
+}
+</style>
 
