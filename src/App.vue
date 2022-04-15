@@ -69,7 +69,7 @@ export default {
       formSchema.value = new ScenarioDm(scenario);
       changeMode('isLoaded');
       setTimeout(() => {
-        //changeMode('editScenario');
+        changeMode('editScenario');
       }, 250);
 
 
