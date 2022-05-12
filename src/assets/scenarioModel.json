@@ -1,8 +1,7 @@
 {
   "schema":  {
-    "title": "Scénario du Centre Nautique",
+    "title": "Editeur de scénarios NaVisu4D",
     "type": "object",
-     "description": "Différentes activités maritimes existent en Rade de Brest. Pour les découvrir, suivez les indications ci-dessous et répondez aux quelques questions. ",
     "format": "grid",
     "required": [
       "origin",
@@ -23,7 +22,7 @@
         "options": {
           "grid_columns": 5
         },
-        "default": "Activités maritimes en rade de Brest"
+        "default": "Scénario NaVisu4D"
       },
       "origin": {
         "title": "Origine",
@@ -35,6 +34,16 @@
         },
         "default": "Terre Virtuelle"
       },
+    "description": {
+      "title": "Description",
+      "type": "string",
+      "format": "grid-strict",
+      "description": "description du workshop",
+      "options": {
+        "grid_columns": 10
+      },
+      "default": "Différentes activités maritimes existent en Rade de Brest. Pour les découvrir, suivez les indications ci-dessous et répondez aux quelques questions. "
+    },
       "date": {
         "title": "Entrez la date",
         "id": "date",

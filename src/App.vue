@@ -63,6 +63,7 @@ export default {
       mode.value = nvMode;
       if (nvMode === 'newScenario') {
         formSchema.value = new ScenarioDm();
+        console.log('formSchema.value   ',formSchema.value);
       }
     }
     const useScenario = (scenario) => {
@@ -97,6 +98,7 @@ export default {
       // need change here just let it more simple
       const dataToSave = formDisplay.value.getDataTosave();
       const res = await ApiHelper.getScenariosFilesPaths(dataToSave)
+      console.log('res  ',res)
       changeMode('dowload');
       schemaFiles.value = res.data
     }

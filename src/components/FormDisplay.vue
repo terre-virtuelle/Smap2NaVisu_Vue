@@ -12,7 +12,7 @@
 
 <script>
 import {JSONEditor} from "@json-editor/json-editor";
-import { onMounted, ref} from "vue";
+import { onMounted, ref,watch} from "vue";
 
 export default {
   name: "FormDisplay",
@@ -21,6 +21,11 @@ export default {
   setup(props) {
     let editor = null
     const fileName = ref('');
+
+    watch(() => props.formSchema,  () => {
+      initEditor();
+      fileName.value = props.formSchema.fileName;
+    }, { immediate: false });
 
     onMounted(() => {
       initEditor();
