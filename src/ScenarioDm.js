@@ -9,6 +9,7 @@ class ScenarioDm{
          this.origin = datas.origin;
          this.date = datas.date;
          this.bbox = datas.bbox;
+         this.description = datas.description;
          this.introduction = datas.introduction;
          this.questions = datas.questions;
         }else {
@@ -16,6 +17,7 @@ class ScenarioDm{
             this.origin = '';
             this.date = {};
             this.bbox = {};
+            this.description = '';
             this.introduction = '';
             this.questions = [];
         }
@@ -27,6 +29,8 @@ class ScenarioDm{
                accumulator[pk] = pv;
                return accumulator;
            },{})
+            formBase.schema.title = this.title !== '' ? this.title : formBase.schema.title;
+
         return formBase;
     }
 

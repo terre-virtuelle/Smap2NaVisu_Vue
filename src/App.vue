@@ -98,7 +98,6 @@ export default {
       // need change here just let it more simple
       const dataToSave = formDisplay.value.getDataTosave();
       const res = await ApiHelper.getScenariosFilesPaths(dataToSave)
-      console.log('res  ',res)
       changeMode('dowload');
       schemaFiles.value = res.data
     }

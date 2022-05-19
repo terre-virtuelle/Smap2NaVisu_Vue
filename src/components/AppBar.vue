@@ -30,8 +30,10 @@
             <v-list-item @click="openDialogSaveAs()">
               <v-list-item-title>Sauvegarder comme</v-list-item-title>
             </v-list-item>
-            <v-divider/>
-            <v-list-item @click="exportScenario()">
+            <v-divider v-if="mode!=='newScenario'"/>
+            </div>
+          <div v-if="mode!=='newScenario' && mode!=='scenarioManager'">
+          <v-list-item @click="exportScenario()">
               <v-list-item-title>Exporter en pdf</v-list-item-title>
             </v-list-item>
             <v-divider/>
