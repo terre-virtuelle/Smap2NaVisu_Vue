@@ -26,3 +26,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 library : 
 
 Json editor => https://github.com/json-editor/json-editor
+
+## Deployement
+```
+You need to change the path of js and css files in the index.html
+```
